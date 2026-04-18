@@ -1,14 +1,25 @@
 def follow_line_behavior():
+    #Hello my dear reader, if you are curious what this all means, refer to the LineWalk.pdf
     line = getLineOffset()
     kp = 0.4
     base_speed = 30
+    error = 0
     if line == 0:
-        error = 50
-    elif line == 1:
-        error = 0
-        #this means that its perfect acording to the algorithm and the slideshow
-        #gonna test this pull rq
-        #test number 2 lol. Need to see if comitting this works now.
+        error = 30
+    elif line > 1 and line < 4:
+        error -10
+        #means two sensors are on the line and thats a nono
+
+    elif line < 7:
+        error = -50
+    else:
+        error = -100 #HARDEST LEFT EVER!!
+    correction = error * kp
+    em1_speed = base_speed + correction
+    em1_speed = min(max(em1_speed, -50), 50)
+    em2_speed = -base_speed + correction
+    em2_speed = min(max(em2_speed, -50), 50)
+    mbot2.drive_speed(em1_speed, em2_speed)
 
     if not arbiter.acquire("line", "FOLLOW_LINE", 10, blocking=False):
         return
