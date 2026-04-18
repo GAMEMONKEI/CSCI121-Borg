@@ -8,6 +8,7 @@ def follow_line_behavior():
         error = 0
         #this means that its perfect acording to the algorithm and the slideshow
         #gonna test this pull rq
+        #test number 2 lol. Need to see if comitting this works now.
 
     if not arbiter.acquire("line", "FOLLOW_LINE", 10, blocking=False):
         return
