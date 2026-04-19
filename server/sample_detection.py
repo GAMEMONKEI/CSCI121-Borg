@@ -40,7 +40,18 @@ def handle_scan_for_sample(payload):
     found_it[0] = False
     # I did this to start the function
     scheduler.start_behavior("SCAN_FOR_SAMPLE", scan_for_sample)
+
     return ok_response("SCAN_FOR_SAMPLE has started")
+
+#Created a checker for java to see if it found the red sample yet using the found_it
+@register_command("CHECK_SAMPLE_FOUND")
+def handle_check_sample_found(payload):
+    #the real checker as it checks if it found it with the true and false thx to found_it
+    return ok_response("found it!", {"found": found_it[0]})
+
+
+
+
 
 
 
