@@ -542,13 +542,15 @@ public class MBot2 {
         //storing python's response in r
         CommandResult<JsonNode> r = execute("CHECK_SAMPLE_FOUND",null);
 
+        //Just in case the called failed for some reason
         if (!r.isSuccessful() || r.data() == null){
             return false;
         }
-        else{
-            return r.data().get
-        }
 
+        else{
+            return r.data().get("found").asBoolean(false);
+
+        }
     }
 
 
