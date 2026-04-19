@@ -532,7 +532,7 @@ public class MBot2 {
 
 
 
-    //Sends SCAN_FOR_SAMPLE to python so it can start it
+    //Sends SCAN_FOR_SAMPLE to python so it can run it
     public  void startSampleScan(){
         execute("SCAN_FOR_SAMPLE",null);
 
@@ -542,7 +542,7 @@ public class MBot2 {
         //storing python's response in r
         CommandResult<JsonNode> r = execute("CHECK_SAMPLE_FOUND",null);
 
-        //Just in case the called failed for some reason
+        //Just in case the call failed for some reason
         if (!r.isSuccessful() || r.data() == null){
             return false;
         }
