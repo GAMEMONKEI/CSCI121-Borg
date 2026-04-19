@@ -767,7 +767,7 @@ def learn_colors():
 # Startup
 # ============================================================
 
-cyberpi.wifi.connect("mbots", "pemacs-mbots")
+cyberpi.wifi.connect("Raines", "3F3T4A3939CCDACV")
 cyberpi.display.show_label("connecting to wifi...", 12, "center")
 while not cyberpi.wifi.is_connect():
     time.sleep(0.1)
