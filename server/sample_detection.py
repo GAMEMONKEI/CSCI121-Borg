@@ -15,7 +15,7 @@ def scan_for_sample():
     finally:
         arbiter.release("camera","SCAN_SAMPLE")
 
-    if ball["color"] != "Red":
+    if ball["color"] != "RED":
         return
 
     #this part of my code is for using the motors since the sample is found
@@ -34,13 +34,17 @@ def scan_for_sample():
     #Since we found it we now  need to implement a stop behavior
     scheduler.stop_behavior("SCAN_FOR_SAMPLE")
 
-    @register_command("SCAN_FOR_SAMPLE")
-    def handle_scan_for_sample(payload):
-        #We are reseting it each time so that we dont have the True before it stopped behavio
-        found_it[0] = False
-        # I did this to start the function
-        scheduler.start_behavior("SCAN_FOR_SAMPLE", scan_for_sample)
-        return ok_response("SCAN_FOR_SAMPLE has started")
+@register_command("SCAN_FOR_SAMPLE")
+def handle_scan_for_sample(payload):
+    #We are reseting it each time so that we dont have the True before it stopped behavio
+    found_it[0] = False
+    # I did this to start the function
+    scheduler.start_behavior("SCAN_FOR_SAMPLE", scan_for_sample)
+    return ok_response("SCAN_FOR_SAMPLE has started")
+
+
+
+
 
 
 
