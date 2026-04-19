@@ -1,7 +1,7 @@
 #Will be tracking whether the sample is found or not and will be updated later
-sample_detected_flag = [False]
+found_it = [False]
 
-def scan_for_sample_behavior():
+def scan_for_sample():
 
 
     #so basically this will check if the camera can be used if not it skips but if it can it scans
@@ -28,8 +28,30 @@ def scan_for_sample_behavior():
     #ofc we release it once again
     finally:
         arbiter.release("motors", "SCAN_SAMPLE")
-    #since we found it we are not updating that we found it
-    sample_detected_flag[0] = True
+    #since we found it we are now updating that we found it
+    found_it[0] = True
+
+    #Since we found it we now  need to implement a stop behavior
+    scheduler.stop_behavior("SCAN_FOR_SAMPLE")
+
+    @register_command("SCAN_FOR_SAMPLE")
+    def handle_scan_for_sample(payload):
+        #We are reseting it each time so that we dont have the True before it stopped behavio
+        found_it[0] = False
+        # I did this to start the function
+        scheduler.start_behavior("SCAN_FOR_SAMPLE", scan_for_sample)
+        return ok_response("SCAN_FOR_SAMPLE has started")
+
+
+
+
+
+
+
+
+
+
+
 
 
 
