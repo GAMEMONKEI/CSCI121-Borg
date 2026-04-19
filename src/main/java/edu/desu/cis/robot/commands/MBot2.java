@@ -532,6 +532,29 @@ public class MBot2 {
 
 
 
+    //Sends SCAN_FOR_SAMPLE to python so it can start it
+    public  void startSampleScan(){
+        execute("SCAN_FOR_SAMPLE",null);
+
+    }
+
+    public boolean checkSampleFound(){
+        //storing python's response in r
+        CommandResult<JsonNode> r = execute("CHECK_SAMPLE_FOUND",null);
+
+        if (!r.isSuccessful() || r.data() == null){
+            return false;
+        }
+        else{
+            return r.data().get
+        }
+
+    }
+
+
+
+
+
     private CommandResult<JsonNode> execute(String command, Map<String,Object> params) {
 
         String json = codec.encodeCommand(command, params);
@@ -548,5 +571,6 @@ public class MBot2 {
         );
 
     }
+
 
 }
