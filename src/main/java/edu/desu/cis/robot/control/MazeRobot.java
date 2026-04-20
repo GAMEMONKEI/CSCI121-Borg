@@ -19,9 +19,13 @@ public class MazeRobot extends RobotController {
 
     public void run(){
         System.out.println("Please connect please connect please connect");
-        mbot.forward(30.0,1);
+        mbot.forward(30.0,30);
 
 
+    }
+
+    public void followLine(){
+        mbot.followLine();
     }
 
     /**
@@ -30,7 +34,7 @@ public class MazeRobot extends RobotController {
      */
     public static void main(String[] args) {
         try (MazeRobot amazin = new MazeRobot("Borg")) {
-            amazin.run();
+            amazin.followLine();
         }
     }
 }
