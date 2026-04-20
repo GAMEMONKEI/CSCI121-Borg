@@ -16,36 +16,39 @@ public class MazeRobot extends RobotController {
         super(robotName);
     }
 
-
-    public void run(){
-        //System.out.println("Please connect please connect please connect");
-        //mbot.forward(30.0,1);
+    public void run() {
+        // start watching for the red cup in the background
         mbot.startSampleScan();
 
-
-        while(true){
+        while (true) {
 
             SensorSnapshot s = awaitNewData();
-            if (mbot.checkSampleFound()){
+
+
+            if (mbot.checkSampleFound()) {
+
                 mbot.stopAllBehaviors();
-                //Kaleah's code
-                //mbot.Play();
-                //Test Test
 
-                System.out.print("sample found, now stopping robot");
+                // mbot.play();  -- uncomment when teammate adds play() to MBot2.java
+
+                System.out.println("sample found, stopping robot");
+                // exit the loop, our job is done
                 break;
-
             }
         }
-
-
     }
+
+    // teammate's line
+    // public void followLine() {
+    //     mbot.followLine();
+    // }
 
     /**
      * The main entry point for the MazeRobot application.
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
+
         try (MazeRobot amazin = new MazeRobot("Borg")) {
             amazin.run();
         }
