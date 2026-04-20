@@ -543,9 +543,10 @@ public class MBot2 {
         CommandResult<JsonNode> r = execute("CHECK_SAMPLE_FOUND",null);
 
         //Just in case the call failed for some reason
-        if (!r.isSuccessful() || r.data() == null){
+        if (!r.isSuccessful() || r.data() == null) {
             return false;
         }
+        //Test Test
 
         else{
             return r.data().get("found").asBoolean(false);
