@@ -25,3 +25,9 @@ def ball_detection_behavior(threshold=SCAN_THRESHOLD):
     label = mbuild.smart_camera.get_color_sta(1)
     mbuild.smart_camera.close_light()
     color = COLOR_NAMES.get(label, None)
+
+    if color == "GREEN":
+        cyberpi.console.print("GREEN: pushing")
+        mbot2.drive_speed(PUSH_SPEED, -PUSH_SPEED)
+        time.sleep(PUSH_DURATION)
+        mbot2.drive_speed(0, 0)
