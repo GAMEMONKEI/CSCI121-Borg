@@ -12,14 +12,14 @@ def follow_line_behavior():
         return
 
     try:
-        line = status  # fixed: getLineOffset() doesn't exist, status has your sensor reading
+        line = status  # line gets whatever the status is
         kp = 0.4
         base_speed = 30
         error = 0
         if line == 0:
             error = 30
         elif line > 1 and line < 4:
-            error = -10  # fixed: was missing the = sign
+            error = -10  
             #means two sensors are on the line and thats a nono
         elif line < 7:
             error = -50
