@@ -132,6 +132,14 @@ public class MBot2 {
      *             the turn.
      *
      */
+    /**
+     *
+     * Commands the robot to walk left of the line.
+     */
+    public void followLine() {
+        execute("FOLLOW_LINE",null);
+    }
+
     public void moveAndTurnRight(double speed, double duration, double diff) {
         execute(
                 "MOVE_AND_TURN",
