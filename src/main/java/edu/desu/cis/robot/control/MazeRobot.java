@@ -18,8 +18,24 @@ public class MazeRobot extends RobotController {
 
 
     public void run(){
-        System.out.println("Please connect please connect please connect");
-        mbot.forward(30.0,1);
+        //System.out.println("Please connect please connect please connect");
+        //mbot.forward(30.0,1);
+        mbot.startSampleScan();
+
+
+        while(true){
+
+            SensorSnapshot s = awaitNewData();
+            if (mbot.checkSampleFound()){
+                mbot.stopAllBehaviors();
+                //Kaleah's code
+                //mbot.Play();
+
+                System.out.print("sample found, now stopping robot");
+                break;
+
+            }
+        }
 
 
     }
