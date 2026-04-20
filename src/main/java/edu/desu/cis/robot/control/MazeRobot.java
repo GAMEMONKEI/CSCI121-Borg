@@ -30,6 +30,7 @@ public class MazeRobot extends RobotController {
                 mbot.stopAllBehaviors();
                 //Kaleah's code
                 //mbot.Play();
+                //Test Test
 
                 System.out.print("sample found, now stopping robot");
                 break;
