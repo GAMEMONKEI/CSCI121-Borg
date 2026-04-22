@@ -49,6 +49,7 @@ public class MazeRobot extends RobotController {
     public static void main(String[] args) {
         try (MazeRobot amazin = new MazeRobot("Borg")) {
             amazin.run();
+            //Test
         }
     }
 }
