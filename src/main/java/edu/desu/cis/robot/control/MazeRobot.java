@@ -28,7 +28,7 @@ public class MazeRobot extends RobotController {
             if (mbot.checkSampleFound()) {
                 // stop all running behaviors including scan and any movement
                 mbot.stopAllBehaviors();
-                // mbot.Play();  -- uncomment when teammate adds play() to MBot2.java
+                 mbot.Play();
                 // print to intellij console so we can see it worked
                 System.out.println("sample found, stopping robot");
                 // exit the loop, our job is done
