@@ -455,10 +455,7 @@ public class MBot2 {
         return telemetry;
     }
 
-    /**
-     * Deregisters a telemetry listener from the robot.
-     * @param telemetry The TelemetryListener to deregister.
-     */
+
     public void deregisterTelemetry(TelemetryListener telemetry) {
         if (telemetry == null) return;
         int port = telemetry.getPort(); // capture before stop
@@ -470,14 +467,6 @@ public class MBot2 {
         );
     }
 
-    //==============================================
-    // Behavior-based commands
-    //==============================================
-
-    /**
-     * Commands the robot to enable its anti-crashing behavior.
-     * @param thresholdInCm The distance threshold in centimeters to avoid a crash.
-     */
     public void avoidCrashing(double thresholdInCm) {
         execute("AVOID_CRASHING",
                 Map.of(
@@ -486,15 +475,6 @@ public class MBot2 {
         );
     }
 
-    /**
-     * Commands the robot to drive forward continuously, arcing left whenever
-     * an obstacle is detected within the threshold distance.
-     * Returns immediately; the behavior runs in the background until stopped.
-     *
-     * @param thresholdCm  Distance in centimetres at which to begin steering (e.g. 25).
-     * @param speed        Forward speed for both motors (0–100).
-     * @param diff         Amount to reduce the inner motor to create the arc (0 to speed).
-     */
     public void steerAround(double thresholdCm, double speed, double diff) {
         execute("STEER_AROUND",
                 Map.of(
@@ -530,7 +510,34 @@ public class MBot2 {
         execute("STOP_ALL_BEHAVIORS", null);
     }
 
+    public class BallDetection {
 
+        private static final double DEFAULT_THRESHOLD_CM = 20.0;
+
+        private final MBot2 robot;
+
+        public BallDetection(MBot2 robot) {
+            this.robot = robot;
+        }
+
+
+        public void startBallDetection() {
+            startBallDetection(DEFAULT_THRESHOLD_CM);
+        }
+
+
+        public void startBallDetection(double thresholdCm) {
+            robot.execute("BALL_DETECTION",
+                    Map.of("threshold", thresholdCm));
+        }
+
+        /**
+         * Stops the ball detection behavior and halts the robot.
+         */
+        public void stopBallDetection() {
+            robot.execute("STOP_BALL_DETECTION", null);
+        }
+    }
 
     private CommandResult<JsonNode> execute(String command, Map<String,Object> params) {
 
