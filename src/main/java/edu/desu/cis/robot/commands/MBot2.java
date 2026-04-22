@@ -546,6 +546,11 @@ public class MBot2 {
         execute("STOP_ALL_BEHAVIORS", null);
     }
 
+    public void Play() {
+        execute("SAMPLE_IS_DETECTED", null);
+
+
+    }
 
     public CommandResult<JsonNode> execute(String command, Map<String, Object> params) {
 
@@ -567,11 +572,7 @@ public class MBot2 {
 
 
 
-        public void Play() {
-            execute("SAMPLE_IS_DETECTED", null);
 
-
-        }
 
 
 }
