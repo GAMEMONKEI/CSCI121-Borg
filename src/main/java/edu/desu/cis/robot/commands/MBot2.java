@@ -568,7 +568,10 @@ public class MBot2 {
 
 
 
+    public void Play() {
+        execute("SAMPLE_IS_DETECTED", null);
 
+    }
 
     private CommandResult<JsonNode> execute(String command, Map<String,Object> params) {
 

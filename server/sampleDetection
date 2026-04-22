@@ -1,0 +1,14 @@
+@register_command("SAMPLE_IS_DETECTED")
+def sample_detection_jingle(payload):
+    cyberpi.audio.play_tone(300,0.1)
+    cyberpi.audio.play_tone(500,0.1)
+    cyberpi.audio.play_tone(800,0.1)
+
+    time.sleep(0.2)
+
+    cyberpi.audio.play_tone(300,0.1)
+    cyberpi.audio.play_tone(500,0.1)
+    cyberpi.audio.play_tone(800,0.1)
+    return ok_response("sucsessfully detected")
+
+
