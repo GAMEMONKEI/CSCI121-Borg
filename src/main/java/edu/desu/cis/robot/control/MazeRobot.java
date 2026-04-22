@@ -17,18 +17,18 @@ public class MazeRobot extends RobotController {
     }
 
     public void run() {
-        // start watching for the red cup in the background
+
         mbot.startSampleScan();
 
         while (true) {
-            // wait for fresh sensor data before doing anything
+
             SensorSnapshot s = awaitNewData();
 
             // every loop ask the robot if the red cup has been spotted yet
             if (mbot.checkSampleFound()) {
                 // stop all running behaviors including scan and any movement
                 mbot.stopAllBehaviors();
-                 mbot.Play();
+                mbot.Play();
                 // print to intellij console so we can see it worked
                 System.out.println("sample found, stopping robot");
                 // exit the loop, our job is done
@@ -37,7 +37,7 @@ public class MazeRobot extends RobotController {
         }
     }
 
-    // tm8 line following method - uncomment when followLine() is added to MBot2.java in mian branch
+
     // public void followLine() {
     //     mbot.followLine();
     // }
