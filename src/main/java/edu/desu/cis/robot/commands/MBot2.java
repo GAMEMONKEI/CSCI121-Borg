@@ -520,26 +520,6 @@ public class MBot2 {
         execute("STOP_AT_LINE", null);
     }
 
-    /**
-     * Stops a specific behavior on the robot.
-     * @param behaviorName The name of the behavior to stop.
-     */
-    public void stopBehavior(String behaviorName) {
-        execute(
-                "STOP_BEHAVIOR",
-                Map.of("behavior_name", behaviorName)
-        );
-    }
-
-    /**
-     * Stops all active behaviors on the robot.
-     */
-    public void stopAllBehaviors() {
-        execute("STOP_ALL_BEHAVIORS", null);
-    }
-
-
-
     //Sends SCAN_FOR_SAMPLE to python so it can run it
     public  void startSampleScan(){
         execute("SCAN_FOR_SAMPLE",null);
@@ -560,6 +540,28 @@ public class MBot2 {
             return r.data().get("found").asBoolean(false);
 
         }
+    }
+
+
+
+
+
+    /**
+     * Stops a specific behavior on the robot.
+     * @param behaviorName The name of the behavior to stop.
+     */
+    public void stopBehavior(String behaviorName) {
+        execute(
+                "STOP_BEHAVIOR",
+                Map.of("behavior_name", behaviorName)
+        );
+    }
+
+    /**
+     * Stops all active behaviors on the robot.
+     */
+    public void stopAllBehaviors() {
+        execute("STOP_ALL_BEHAVIORS", null);
     }
 
 
