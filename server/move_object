@@ -23,3 +23,4 @@ def move_object_behavior():
 def handle_move_object(payload):
     move_object_behavior()
     return ok_response("STEER_AROUND started")
+    #test
