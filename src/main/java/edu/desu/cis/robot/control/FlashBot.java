@@ -24,7 +24,7 @@ public class FlashBot extends RobotController {
     }
 
     public static void main(String[] args) {
-        try (FlashBot robot = new FlashBot("Borg")) {
+        try (FlashBot robot = new FlashBot("Preston")) {
             robot.run();
         }
     }

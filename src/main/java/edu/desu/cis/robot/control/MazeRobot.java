@@ -20,19 +20,23 @@ public class MazeRobot extends RobotController {
 
         mbot.startSampleScan();
 
-        while (true) {
+        boolean keep_going = true;
+
+
+
+        while (keep_going) {
 
             SensorSnapshot s = awaitNewData();
 
             // every loop ask the robot if the red cup has been spotted yet
             if (mbot.checkSampleFound()) {
-                // stop all running behaviors including scan and any movement
+                // stop all running behaviors
                 mbot.stopAllBehaviors();
                 mbot.Play();
-                // print to intellij console so we can see it worked
+
                 System.out.println("sample found, stopping robot");
-                // exit the loop, our job is done
-                break;
+                // exit the loop
+                keep_going = false;
             }
         }
     }
@@ -47,7 +51,7 @@ public class MazeRobot extends RobotController {
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
-        try (MazeRobot amazin = new MazeRobot("Borg")) {
+        try (MazeRobot amazin = new MazeRobot("Preston")) {
             amazin.run();
             //Test
         }

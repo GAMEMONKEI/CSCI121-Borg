@@ -24,7 +24,7 @@ public class ObstacleAvoider extends RobotController {
     }
 
     public static void main(String[] args) {
-        try (ObstacleAvoider robot = new ObstacleAvoider("Borg")) {
+        try (ObstacleAvoider robot = new ObstacleAvoider("Preston")) {
             robot.run();
         }
     }

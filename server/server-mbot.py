@@ -9,7 +9,7 @@ import _thread
 
 
 # --- Configuration ---
-ROBOT_ID = "Borg"
+ROBOT_ID = "Preston"
 DISCOVERY_PORT = 9998
 COMMAND_PORT = 9990
 TELEMETRY_PORT = 9991
@@ -238,7 +238,7 @@ class MBotServer:
                 continue
 
             if msg.get("type") == "DISCOVERY" and \
-               msg.get("payload", {}).get("robot") == ROBOT_ID:
+                    msg.get("payload", {}).get("robot") == ROBOT_ID:
                 response = {
                     "type": "DISCOVERY",
                     "id": msg.get("id"),
@@ -602,7 +602,7 @@ def turn(angle):
     while True:
         current_angle = cyberpi.get_yaw()
         if angle > 0:
-            current_angle = current_angle if current_angle >= 0 else 180 + (current_angle % 180) 
+            current_angle = current_angle if current_angle >= 0 else 180 + (current_angle % 180)
         elif angle < 0:
             current_angle = current_angle if current_angle <= 0  else -180 + (current_angle % -180)
         error = angle - current_angle
@@ -767,7 +767,7 @@ def learn_colors():
 # Startup
 # ============================================================
 
-cyberpi.wifi.connect("mbots", "pemacs-mbots")
+cyberpi.wifi.connect("CIS_WiFi", "CIS!2018#WiFi")
 cyberpi.display.show_label("connecting to wifi...", 12, "center")
 while not cyberpi.wifi.is_connect():
     time.sleep(0.1)
@@ -860,3 +860,71 @@ def stop_at_line_behavior():
 def handle_stop_at_line(payload):
     scheduler.start_behavior("STOP_AT_LINE", stop_at_line_behavior)
     return ok_response("STOP_AT_LINE behavior started")
+
+
+#Will be tracking whether the sample is found or not and will be updated later.
+found_it = [False]
+
+def scan_for_sample():
+
+
+    #So basically this will check if the camera can be used if not it skips but if it can ,it scans.
+    if not arbiter.acquire("camera","SCAN_SAMPLE", 40,blocking = False):
+        return
+
+    #Function that uses the camera to identify the color of the ball it is seeing
+    try:
+        ball = get_detected_ball()
+    #Always releases the camera so other behaviors can use it
+    finally:
+        arbiter.release("camera","SCAN_SAMPLE")
+
+    if ball["color"] != "RED":
+        return
+
+    #this part of my code is for using the motors since the sample is found
+    #if the motors are busy it skips
+    if not arbiter.acquire("motors","SCAN_SAMPLE", 120,blocking = False):
+        return
+    #This helps stop both motors because 0 speed
+    try:
+        mbot2.drive_speed(0,0)
+    #ofc we release it once again
+    finally:
+        arbiter.release("motors", "SCAN_SAMPLE")
+    #Since we found the sample, we are now updating that we found it
+    found_it[0] = True
+
+    #Since we found it we now  need to implement a stop behavior
+    scheduler.stop_behavior("SCAN_FOR_SAMPLE")
+
+@register_command("SCAN_FOR_SAMPLE")
+def handle_scan_for_sample(payload):
+    #We are resetting it each time so that we dont start with the leftover  True
+    found_it[0] = False
+    # I did this to start the function
+    scheduler.start_behavior("SCAN_FOR_SAMPLE", scan_for_sample)
+
+    return ok_response("SCAN_FOR_SAMPLE has started")
+
+#Created a checker for java to see if it found the red sample yet using  found_it
+@register_command("CHECK_SAMPLE_FOUND")
+def handle_check_sample_found(payload):
+    #the real checker as it checks if it found it with the true and false thx to found_it
+    return ok_response("found it!", {"found": found_it[0]})
+    #Java time!
+
+@register_command("SAMPLE_IS_DETECTED")
+def sample_detection_jingle(payload):
+    cyberpi.audio.play_tone(300,0.1)
+    cyberpi.audio.play_tone(500,0.1)
+    cyberpi.audio.play_tone(800,0.1)
+
+    time.sleep(0.2)
+
+    cyberpi.audio.play_tone(300,0.1)
+    cyberpi.audio.play_tone(500,0.1)
+    cyberpi.audio.play_tone(800,0.1)
+    return ok_response("sucsessfully detected")
+
+
