@@ -47,6 +47,7 @@ public class MazeRobot extends RobotController {
                     System.out.println("Yay sample found");
                     keepGoing = false;
                 }
+
                 // Didn't find red color basically
                 else{
                     //Reactivating the avoidCrashing

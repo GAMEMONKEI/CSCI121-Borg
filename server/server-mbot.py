@@ -9,6 +9,8 @@ import _thread
 
 
 # --- Configuration ---
+WIFI_SSID = "CIS_WiFi"
+WIFI_PASSWORD = "CIS!2018#WiFi"
 ROBOT_ID = "Preston"
 DISCOVERY_PORT = 9998
 COMMAND_PORT = 9990
@@ -19,8 +21,7 @@ BUFFER_SIZE = 1024
 COLOR_NAMES = {
     1: "RED",
     2: "GREEN",
-    3: "BLUE",
-    4: "YELLOW"
+    3: "YELLOW"
 }
 
 
@@ -768,7 +769,7 @@ def learn_colors():
 # Startup
 # ============================================================
 
-cyberpi.wifi.connect("CIS_WiFi", "CIS!2018#WiFi")
+cyberpi.wifi.connect(WIFI_SSID, WIFI_PASSWORD)
 cyberpi.display.show_label("connecting to wifi...", 12, "center")
 while not cyberpi.wifi.is_connect():
     time.sleep(0.1)
@@ -863,8 +864,6 @@ def handle_stop_at_line(payload):
     return ok_response("STOP_AT_LINE behavior started")
 
 
-
-
 @register_command("SAMPLE_IS_DETECTED")
 def sample_detection_jingle(payload):
     cyberpi.audio.play_tone(300,0.1)
@@ -877,5 +876,4 @@ def sample_detection_jingle(payload):
     cyberpi.audio.play_tone(500,0.1)
     cyberpi.audio.play_tone(800,0.1)
     return ok_response("sucsessfully detected")
-
 
