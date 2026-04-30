@@ -41,9 +41,7 @@ public class TelemetryListener implements Runnable, AutoCloseable {
             while (running) {
                 DatagramPacket packet =
                         new DatagramPacket(buffer, buffer.length);
-
                 socket.receive(packet);
-
                 String msg = new String(
                         packet.getData(),
                         0,
