@@ -346,6 +346,7 @@ def camera_learn(mode):
             if mode == "COLOR":
                 mbuild.smart_camera.set_mode(mode="color")
                 mbuild.smart_camera.open_light()
+                cyberpi.display.clear()
                 for sign_id in COLOR_NAMES.keys():
                     cyberpi.display.show_label(COLOR_NAMES[sign_id], 16, 'center')
                     time.sleep(pause)

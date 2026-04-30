@@ -20,8 +20,8 @@ public class MazeRobot extends RobotController {
         mbot.avoidCrashing(15.0);
         //I am using mbot.forward for now as I am not sure if Conner is done with his
         //line following code.
-        //mbot.forward(50);
-        mbot.followLine();
+        mbot.forward(50);
+        //mbot.followLine();
 
 
         boolean keepGoing = true;
@@ -29,7 +29,7 @@ public class MazeRobot extends RobotController {
         while (keepGoing){
             SensorSnapshot data = awaitNewData();
 
-            //basically is something close enough to us it stops all behaviors
+            //basically is something close enough to , us it stops all behaviors
             if (data.distance() <= 15.0){
                 //Stops all behaviors including the avoidCrashing
                 mbot.stopAllBehaviors();
@@ -47,8 +47,8 @@ public class MazeRobot extends RobotController {
                 else{
                     //Reactivating the avoidCrashing
                     mbot.avoidCrashing(15.0);
-                    //mbot.forward(50);
-                    mbot.followLine();
+                    mbot.forward(50);
+                    //mbot.followLine();
 
 
                 }
@@ -56,9 +56,7 @@ public class MazeRobot extends RobotController {
 
         }
     }
-    // public void followLine() {
-    //     mbot.followLine();
-    // }
+
 
     /**
      * The main entry point for the MazeRobot application.
