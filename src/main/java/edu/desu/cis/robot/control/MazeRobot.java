@@ -45,7 +45,13 @@ public class MazeRobot extends RobotController {
                 if(whatColor.equalsIgnoreCase("RED")){
                     mbot.Play();
                     System.out.println("Yay sample found");
-                    keepGoing = false;
+                    mbot.turnLeft(45);
+                    mbot.followLine();
+                }
+                else if (whatColor.equalsIgnoreCase("YELLOW")) {
+                    System.out.println("Yellow block found");
+                    mbot.stop();
+                    keepGoing = false; // stops the loop
                 }
 
                 // Didn't find red color basically
