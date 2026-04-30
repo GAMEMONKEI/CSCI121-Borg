@@ -16,17 +16,47 @@ public class MazeRobot extends RobotController {
         super(robotName);
     }
 
+    public void run() {
+        mbot.avoidCrashing(15.0);
+        //I am using mbot.forward for now as I am not sure if Conner is done with his
+        //line following code.
+        mbot.forward(50);
+        //mbot.followLine();
 
-    public void run(){
-        System.out.println("Please connect please connect please connect");
-        mbot.forward(30.0,30);
+
+        boolean keepGoing = true;
+
+        while (keepGoing){
+            SensorSnapshot data = awaitNewData();
+
+            //basically is something close enough to , us it stops all behaviors
+            if (data.distance() <= 15.0){
+                //Stops all behaviors including the avoidCrashing
+                mbot.stopAllBehaviors();
+
+                //reads what color it encountered and stores it into the variable
+                String whatColor = mbot.getColorObjectFromCamera();
 
 
+                if(whatColor.equalsIgnoreCase("RED")){
+                    mbot.Play();
+                    System.out.println("Yay sample found");
+                    keepGoing = false;
+                }
+                // Didn't find red color basically
+                else{
+                    //Reactivating the avoidCrashing
+                    mbot.avoidCrashing(15.0);
+                    mbot.forward(50);
+                    //mbot.followLine();
+
+
+                }
+            }
+
+        }
     }
 
-    public void followLine(){
-        mbot.followLine();
-    }
 
     /**
      * The main entry point for the MazeRobot application.
@@ -34,7 +64,8 @@ public class MazeRobot extends RobotController {
      */
     public static void main(String[] args) {
         try (MazeRobot amazin = new MazeRobot("Borg")) {
-            amazin.followLine();
+            amazin.run();
+            //Test
         }
     }
 }

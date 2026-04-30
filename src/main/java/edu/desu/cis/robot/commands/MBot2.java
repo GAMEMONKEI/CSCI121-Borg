@@ -559,6 +559,13 @@ public class MBot2 {
 
 
     }
+    public void startBallDetection() {
+        execute("BALL_DETECTION", Map.of("threshold", 20.0));
+    }
+
+    public void stopBallDetection() {
+        execute("STOP_BALL_DETECTION", null);
+    }
 
     public CommandResult<JsonNode> execute(String command, Map<String, Object> params) {
 
