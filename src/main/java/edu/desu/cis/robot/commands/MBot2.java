@@ -543,27 +543,9 @@ public class MBot2 {
         execute("STOP_ALL_BEHAVIORS", null);
     }
 
-    //Sends SCAN_FOR_SAMPLE to python so it can run it
-    public  void startSampleScan(){
-        execute("SCAN_FOR_SAMPLE",null);
 
-    }
 
-    public boolean checkSampleFound(){
-        //storing python's response in r
-        CommandResult<JsonNode> r = execute("CHECK_SAMPLE_FOUND",null);
 
-        //Just in case the call failed for some reason
-        if (!r.isSuccessful() || r.data() == null) {
-            return false;
-        }
-        //Test Test
-
-        else{
-            return r.data().get("found").asBoolean(false);
-
-        }
-    }
 
 
 
