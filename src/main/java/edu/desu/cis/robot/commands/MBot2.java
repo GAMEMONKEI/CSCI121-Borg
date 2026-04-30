@@ -555,6 +555,11 @@ public class MBot2 {
 
     }
 
+    public void yellow_play() {
+        execute("YELLOW_BLOCK_IS_DETECTED", null);
+
+    }
+
 
 
 

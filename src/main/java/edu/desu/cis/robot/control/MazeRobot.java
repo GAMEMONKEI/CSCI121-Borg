@@ -45,10 +45,18 @@ public class MazeRobot extends RobotController {
                 if(whatColor.equalsIgnoreCase("RED")){
                     mbot.Play();
                     System.out.println("Yay sample found");
+                    try {
+                        Thread.sleep(2000);  //  2 seconds
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+
+
                     mbot.turnLeft(45);
                     mbot.followLine();
                 }
                 else if (whatColor.equalsIgnoreCase("YELLOW")) {
+                    mbot.yellow_play();
                     System.out.println("Yellow block found");
                     mbot.stop();
                     keepGoing = false; // stops the loop
