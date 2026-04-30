@@ -17,7 +17,7 @@ public class MazeRobot extends RobotController {
     }
 
     public void run() {
-        mbot.avoidCrashing(15.0);
+        mbot.avoidCrashing(9.0);
         //I am using mbot.forward for now as I am not sure if Conner is done with his
         //line following    code.
         //mbot.forward(50);
@@ -51,7 +51,7 @@ public class MazeRobot extends RobotController {
                         Thread.currentThread().interrupt();
                     }
 
-
+                    mbot.avoidCrashing(9.0);
                     mbot.turnLeft(45);
                     mbot.followLine();
                 }
@@ -65,7 +65,7 @@ public class MazeRobot extends RobotController {
                 // Didn't find red color basically
                 else{
                     //Reactivating the avoidCrashing
-                    mbot.avoidCrashing(15.0);
+                    mbot.avoidCrashing(9.0);
                     //mbot.forward(50);
                     mbot.followLine();
 
