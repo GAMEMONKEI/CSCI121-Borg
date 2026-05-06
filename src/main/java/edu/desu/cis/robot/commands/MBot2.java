@@ -78,6 +78,8 @@ public class MBot2 {
         );
     }
 
+
+
     /**
      * Turns the robot left by a specified number of degrees.
      * @param degrees The angle to turn in degrees.
@@ -226,6 +228,11 @@ public class MBot2 {
         );
     }
 
+
+    public void Play() {
+        execute("SAMPLE_IS_DETECTED", null);
+    }
+
     /**
      * Displays a color pattern on the LEDs.
      * @param colorPattern A string of color(s) of the five LEDs, set in the color1 color2 color3 color4 color5 mode,
@@ -292,6 +299,10 @@ public class MBot2 {
         );
     }
 
+    public void moveObject() {
+        execute("MOVE_OBJECT", null);
+    }
+
     /**
      * Turns off the camera light.
      *
@@ -304,7 +315,6 @@ public class MBot2 {
         );
     }
 
-    // Sensor methods
 
     /**
      * Reads the distance from the ultrasonic sensor.
@@ -319,6 +329,10 @@ public class MBot2 {
             return -1;
         }
         return result.data().get("distance_cm").asDouble();
+    }
+
+    public void pushObject() {
+        execute("MOVE_OBJECT", null);
     }
 
     /**
@@ -492,6 +506,11 @@ public class MBot2 {
                         "threshold",thresholdInCm
                 )
         );
+    }
+
+    public void yellow_play() {
+        execute("YELLOW_BLOCK_IS_DETECTED", null);
+
     }
 
     /**

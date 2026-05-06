@@ -22,9 +22,9 @@ def follow_line_behavior():
             error = -10  # fixed: was missing the = sign
             #means two sensors are on the line and thats a nono
         elif line < 7:
-            error = -50
+            error = -30
         else:
-            error = -100 #HARDEST LEFT EVER!!
+            error = -50 #HARDEST LEFT EVER!!
         correction = error * kp
         em1_speed = base_speed + correction
         em1_speed = min(max(em1_speed, -50), 50)
