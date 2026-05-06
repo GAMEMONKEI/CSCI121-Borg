@@ -238,7 +238,7 @@ class MBotServer:
                 continue
 
             if msg.get("type") == "DISCOVERY" and \
-               msg.get("payload", {}).get("robot") == ROBOT_ID:
+                    msg.get("payload", {}).get("robot") == ROBOT_ID:
                 response = {
                     "type": "DISCOVERY",
                     "id": msg.get("id"),
@@ -602,7 +602,7 @@ def turn(angle):
     while True:
         current_angle = cyberpi.get_yaw()
         if angle > 0:
-            current_angle = current_angle if current_angle >= 0 else 180 + (current_angle % 180) 
+            current_angle = current_angle if current_angle >= 0 else 180 + (current_angle % 180)
         elif angle < 0:
             current_angle = current_angle if current_angle <= 0  else -180 + (current_angle % -180)
         error = angle - current_angle
@@ -767,7 +767,7 @@ def learn_colors():
 # Startup
 # ============================================================
 
-cyberpi.wifi.connect("mbots", "pemacs-mbots")
+cyberpi.wifi.connect("CIS_WiFi", "CIS!2018#WiFi")
 cyberpi.display.show_label("connecting to wifi...", 12, "center")
 while not cyberpi.wifi.is_connect():
     time.sleep(0.1)
@@ -807,6 +807,31 @@ server.start()
 #       return ok_response("My behavior started")
 #
 # ################################################################
+@register_command("FLASH_LED")
+def handle_flash_led(payload):
+    params = payload.get("parameters", {})
+    times  = int(params.get("times", 3))
+    r      = int(params.get("red",   0))
+    g      = int(params.get("green", 0))
+    b      = int(params.get("blue",  255))
+    delay  = float(params.get("delay", 0.3))
+
+    if times < 1 or times > 20:
+        return error_response("INVALID_PARAM",
+                              "times must be between 1 and 20")
+
+    if arbiter.acquire("led", "FLASH_LED", 50):
+        try:
+            for _ in range(times):
+                cyberpi.led.on(r, g, b, id="all")
+                time.sleep(delay)
+                cyberpi.led.off(id="all")
+                time.sleep(delay)
+            return ok_response("Flash complete")
+        finally:
+            arbiter.release("led", "FLASH_LED")
+
+
 
 # ============================================================
 # Behavior Functions
@@ -860,3 +885,83 @@ def stop_at_line_behavior():
 def handle_stop_at_line(payload):
     scheduler.start_behavior("STOP_AT_LINE", stop_at_line_behavior)
     return ok_response("STOP_AT_LINE behavior started")
+
+def follow_line_behavior():
+    #Hello my dear reader, if you are curious what this all means, refer to the LineWalk.pdf
+    if not arbiter.acquire("line", "FOLLOW_LINE", 10, blocking=False):
+        return
+
+    try:
+        status = mbuild.quad_rgb_sensor.get_line_sta()  # line 1
+    finally:
+        arbiter.release("line", "FOLLOW_LINE")
+
+    if not arbiter.acquire("motors", "FOLLOW_LINE", 10, blocking=False):
+        return
+
+    try:
+        line = status
+        kp = 0.4
+        base_speed = 30
+        error = 0
+
+        if line == 0:
+            error = 50
+        elif line > 1 and line < 4:
+            error = -30
+        elif line < 7:
+            error = -30
+        elif line == 15:
+            error = -60
+        else:
+            error = -50
+
+        correction = error * kp
+        em1_speed = base_speed + correction
+        em1_speed = min(max(em1_speed, -50), 50)
+        em2_speed = -base_speed + correction
+        em2_speed = min(max(em2_speed, -50), 50)
+        mbot2.drive_speed(em1_speed, em2_speed)
+    finally:
+        arbiter.release("motors", "FOLLOW_LINE")
+
+
+@register_command("FOLLOW_LINE")
+def handle_follow_line(payload):
+    scheduler.start_behavior("FOLLOW_LINE", follow_line_behavior)
+    return ok_response("Following Line")
+
+@register_command("MOVE_OBJECT")
+def handle_move_object(payload):
+    move_object_behavior()
+    return ok_response("MOVE_OBJECT done")
+
+DISTANCE_THRESHOLD = 15.0
+SCAN_THRESHOLD = 20.0
+PUSH_SPEED = 60
+PUSH_DURATION = 1.5
+BACKUP_SPEED = 40
+BACKUP_DURATION = 0.8
+
+
+
+
+@register_command("SAMPLE_IS_DETECTED")
+def sample_detection_jingle(payload):
+    cyberpi.audio.play_tone(300,0.1)
+    cyberpi.audio.play_tone(500,0.1)
+    cyberpi.audio.play_tone(800,0.1)
+
+    time.sleep(0.2)
+
+    cyberpi.audio.play_tone(300,0.1)
+    cyberpi.audio.play_tone(500,0.1)
+    cyberpi.audio.play_tone(800,0.1)
+    return ok_response("sucsessfully detected")
+
+
+@register_command("YELLOW_BLOCK_IS_DETECTED")
+def return_audio(payload):
+    cyberpi.audio.set_vol(80)
+    cyberpi.audio.play("hello")
+    #cyberpi.audio.play_tone(300, 0.1)
